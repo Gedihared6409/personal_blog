@@ -6,7 +6,8 @@ from flask_uploads import UploadSet,configure_uploads,IMAGES
 from flask_mail import Mail
 from flask_simplemde import SimpleMDE
 from flask_login import LoginManager
-
+import sys
+import logging
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 mail = Mail()
@@ -28,7 +29,8 @@ def create_app(config_name):
     # config_options[config_name].init_app(app)
     app.config.from_object(config_options[config_name])
     app.config['SECRET_KEY'] = 'any secret string'
-
+    app.logger.addHandler(logging.StreamHandler(sys.stdout))
+    app.logger.setLevel(logging.ERROR)
     # Initializing flask extensions
     bootstrap.init_app(app)
     db.init_app(app)
